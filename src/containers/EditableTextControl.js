@@ -4,7 +4,6 @@ import StateControl from './StateControl'
 import TextControl from './TextControl';
 
 function textEditControl(value, onChange) {
-  console.log(`value: ${value}`);
   return (
     <TextControl value={value} onChange={onChange} />
   )
@@ -36,7 +35,7 @@ function EditableTextControl(props) {
 }
 
 EditableTextControl.propTypes = {
-  value: PropTypes.any.isRequired,
+  // value: PropTypes.any.isRequired,
   editing: PropTypes.bool.isRequired,
 }
 

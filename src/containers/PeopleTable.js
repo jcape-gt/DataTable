@@ -6,21 +6,22 @@ export default function PeopleTable(props) {
 
   const [data, setData] = React.useState(
     [
-      { name: 'Jesse', age: '33' },
-      { name: 'Brittany', age: '32', },
-      { name: 'Molli', age: '3', },
+      { id: 1, name: 'Jesse', age: '33' },
+      { id: 2, name: 'Brittany', age: '32', },
+      { id: 3, name: 'Molli', age: '3', },
     ]
   );
 
-  const updateData = (rowIndex, key, value) => {
-    setData(old => old.map((row, index) => {
-      if (index === rowIndex) {
-        return {
-          ...old[rowIndex],
-          [key]: value
-        }
+  /**
+   * Handles save logic for the updated data
+   * @param {Object} updatedData Updated object to be saved 
+   */
+  const onSave = (updatedData) => {
+    setData([...data].map(o => {
+      if(o.id === updatedData.id) {
+        return {...o, name: updatedData.name}
       }
-      return row;
+      else return o
     }))
   }
 
@@ -31,12 +32,22 @@ export default function PeopleTable(props) {
         accessor: 'name',
         Cell: (cell) => {
           const { editing } = cell.row.state;
-          const index = cell.row.index;
-          const key = cell.column.id;
+
+          const setUpdatedValue = (row, key, value) => {
+            const updatedValues = {...row.state.updatedValues, ...{[key]: value}}
+            row.setState({...row.state, ...{updatedValues: updatedValues}});
+          }
 
           return (
-            // <EditableTextControl value={cell.value} onChange={(val) => {updateData(index, key, val)}} editing={editing} />
-            <EditableTextControl value={cell.value} onChange={() => {}} editing={editing} />
+            <EditableTextControl 
+              value={cell.value} 
+              onChange={
+                (val) => {
+                  setUpdatedValue(cell.row, 'name', val);
+                }
+              } 
+              editing={editing} 
+            />
           )
         }
       },
@@ -44,11 +55,17 @@ export default function PeopleTable(props) {
         Header: 'Age',
         accessor: 'age',
       },
+      {
+        accessor: 'id',
+        Cell: (cell) => {
+          return(<div></div>);
+        }
+      },
     ],
     []
   )
 
   return (
-    <EditableTable data={data} columns={columns} />
+    <EditableTable data={data} columns={columns} onSave={onSave} />
   )
 }

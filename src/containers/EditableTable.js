@@ -1,16 +1,28 @@
 import React from 'react';
-import { useTable, useRowState } from 'react-table'
+import { useTable, useRowState } from 'react-table';
 import useRowEditor from '../hooks/useRowEditor';
 import RowEditStateControl from './RowEditStateControl';
 import RowViewStateControl from './RowViewStateControl';
 import RowStateControl from './RowStateControl';
 
 export default function SelectableTable(props) {
-  const { data, columns } = props;
-  const [ rowEdit, rowSave, rowRevert ] = useRowEditor();
+  const { data, columns, onSave } = props;
+  const [ getRowEditorState, rowEdit, rowSave, rowRevert ] = useRowEditor();
   
   const initialRowState = (row) => {
-    return {editing: false};
+    //const handlerState = getInitialRowHandlerState();
+    const handlerState = {dataState: 'unmodified'};
+    const rowEditorState = getRowEditorState();
+    return { ...handlerState, ...rowEditorState, updatedValues: {}, }
+  }
+
+  const initialCellState = (cell) => {
+    return {updatedValue: null}
+  }
+
+  const onLocalSave = (row) => {
+    onSave(row.state.updatedValues);
+    rowSave(row);
   }
 
   const {
@@ -22,10 +34,11 @@ export default function SelectableTable(props) {
   } = useTable({ 
     columns, 
     data, 
-    initialRowStateAccessor: initialRowState
+    initialRowStateAccessor: initialRowState,
+    initialCellStateAccessor: initialCellState,
     }, useRowState
   )
- 
+    
   return (
     <table {...getTableProps()}>
       <thead>
@@ -45,13 +58,14 @@ export default function SelectableTable(props) {
           prepareRow(row);
           return (
             <tr {...row.getRowProps()}>
+              {console.log(row.getRowProps())}
               <td>
                 <RowStateControl 
                   editing={row.state.editing}
                   editControl={() => 
                     <RowEditStateControl 
                       row={row} 
-                      onSaveClick={() => rowSave(row)} 
+                      onSaveClick={() => onLocalSave(row)} 
                       onCancelClick={() =>  rowRevert(row)} 
                     />
                   }

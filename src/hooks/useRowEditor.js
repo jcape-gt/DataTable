@@ -3,10 +3,15 @@ import { useState } from 'react';
 export default function useRowEditor() {
   const [rowEditor, setRowEditor] = useState({isEditing: false, snapshot: {}});
   
+
+  const getRowEditorState = () => {
+    return {editing: false};
+  }
+
   const rowEdit = (row) => {
     if(!rowEditor.isEditing) {
       setRowEditor({...rowEditor, ...{isEditing: true, snapshot: row}});
-      row.setState({...row.state, ...{editing: true}})
+      row.setState({...row.state, ...{editing: true, updatedValues: row.values}})
     }
   }
 
@@ -25,5 +30,5 @@ export default function useRowEditor() {
     }
   }
 
-  return [rowEdit, rowSave, rowRevert];
+  return [getRowEditorState, rowEdit, rowSave, rowRevert];
 }
