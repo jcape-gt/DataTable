@@ -25,6 +25,20 @@ export default function PeopleTable(props) {
     }))
   }
 
+  const onEdit = (row) => {
+    row.setState((prevState) => {
+      return {...prevState, ...{className: 'row-edit'}}
+    })
+    console.log('Editing..');
+  }
+
+  const onRevert = (row) => {
+    row.setState((prevState) => {
+      return {...prevState, ...{className: 'row-read'}}
+    })
+    console.log('onRevert..');
+  }
+
   const columns = React.useMemo(
     () => [
       {
@@ -66,6 +80,12 @@ export default function PeopleTable(props) {
   )
 
   return (
-    <EditableTable data={data} columns={columns} onSave={onSave} />
+    <EditableTable 
+      data={data} 
+      columns={columns} 
+      onSave={onSave} 
+      onEdit={onEdit}
+      onRevert={onRevert}
+    />
   )
 }

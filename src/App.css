@@ -13,8 +13,16 @@
   }
 }
 
+.row-read {
+  background-color: '';
+}
+
+.row-edit {
+  background-color: #2E151B;
+}
+
 .App-header {
-  background-color: #282c34;
+  background-color: #2F4454;
   min-height: 100vh;
   display: flex;
   flex-direction: column;

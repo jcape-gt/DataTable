@@ -3,7 +3,6 @@ import { useState } from 'react';
 export default function useRowEditor() {
   const [rowEditor, setRowEditor] = useState({isEditing: false, snapshot: {}});
   
-
   const getRowEditorState = () => {
     return {editing: false};
   }

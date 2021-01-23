@@ -1,28 +1,37 @@
 import React from 'react';
 import { useTable, useRowState } from 'react-table';
 import useRowEditor from '../hooks/useRowEditor';
-import RowEditStateControl from './RowEditStateControl';
-import RowViewStateControl from './RowViewStateControl';
-import RowStateControl from './RowStateControl';
+import EditableRow from './EditableRow';
 
 export default function SelectableTable(props) {
-  const { data, columns, onSave } = props;
+  const { data, columns, onSave, onEdit, onRevert } = props;
   const [ getRowEditorState, rowEdit, rowSave, rowRevert ] = useRowEditor();
   
   const initialRowState = (row) => {
     //const handlerState = getInitialRowHandlerState();
     const handlerState = {dataState: 'unmodified'};
     const rowEditorState = getRowEditorState();
-    return { ...handlerState, ...rowEditorState, updatedValues: {}, }
+    return { ...handlerState, ...rowEditorState, updatedValues: {}, className: "" }
   }
 
   const initialCellState = (cell) => {
     return {updatedValue: null}
   }
 
-  const onLocalSave = (row) => {
+  const onRowSave = (row) => {
     onSave(row.state.updatedValues);
     rowSave(row);
+  }
+
+  const onRowEdit = (row) => {
+    rowEdit(row);
+    onEdit(row);
+    
+  }
+
+  const onRowRevert = (row) => {
+    rowRevert(row);
+    onRevert(row);
   }
 
   const {
@@ -40,7 +49,7 @@ export default function SelectableTable(props) {
   )
     
   return (
-    <table {...getTableProps()}>
+    <table {...getTableProps()} style={{borderCollapse: 'collapse'}}>
       <thead>
         {headerGroups.map(headerGroup => (
           <tr {...headerGroup.getHeaderGroupProps()}>
@@ -57,33 +66,13 @@ export default function SelectableTable(props) {
         {rows.map(row => {
           prepareRow(row);
           return (
-            <tr {...row.getRowProps()}>
-              {console.log(row.getRowProps())}
-              <td>
-                <RowStateControl 
-                  editing={row.state.editing}
-                  editControl={() => 
-                    <RowEditStateControl 
-                      row={row} 
-                      onSaveClick={() => onLocalSave(row)} 
-                      onCancelClick={() =>  rowRevert(row)} 
-                    />
-                  }
-                  viewControl={() => 
-                    <RowViewStateControl row={row} 
-                      onEditClick={() => {rowEdit(row)}} 
-                    />
-                  }
-                />
-              </td>
-              {row.cells.map(cell => {
-                return (
-                  <td {...cell.getCellProps()}>
-                    {cell.render('Cell')}
-                  </td>
-                )
-              })}
-            </tr>
+            <EditableRow 
+              row={row} 
+              key={row.id} 
+              onSave={() => {onRowSave(row)}} 
+              onEdit={() => {onRowEdit(row)}} 
+              onRevert={() => {onRowRevert(row)}} 
+            />
           )
         })}
       </tbody>
