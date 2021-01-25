@@ -1,4 +1,6 @@
+import PropTypes from 'prop-types';
 import React, { useState } from 'react';
+import TextField from '@material-ui/core/TextField';
 
 // Ability to change value and callback for value changed? 
 function TextControl(props) {
@@ -11,8 +13,13 @@ function TextControl(props) {
   }
 
   return (
-    <input value={editValue} onChange={(event) => onLocalChange(event.target.value)} />
+    <TextField value={editValue} onChange={(event) => onLocalChange(event.target.value)} />
   )
+}
+
+TextControl.propTypes = {
+  onChange: PropTypes.func.isRequired,
+  value: PropTypes.any.isRequired,
 }
 
 export default TextControl;

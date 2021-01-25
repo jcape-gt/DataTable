@@ -22,7 +22,8 @@ StateControl.propTypes = {
   stateControlList: PropTypes.arrayOf(PropTypes.shape({
     id: PropTypes.any.isRequired,
     render: PropTypes.func.isRequired
-  }))
+  })),
+  state: PropTypes.any.isRequired,
 };
 
 export default StateControl;

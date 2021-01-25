@@ -1,6 +1,6 @@
 import React from 'react';
-import EditableTable from './EditableTable';
-import EditableTextControl from './EditableTextControl';
+import DataTable from './DataTable';
+import DataTextControl from './DataTextControl';
 
 export default function PeopleTable(props) {
 
@@ -27,7 +27,7 @@ export default function PeopleTable(props) {
 
   const onEdit = (row) => {
     row.setState((prevState) => {
-      return {...prevState, ...{className: 'row-edit'}}
+      return {...prevState, ...{className: 'Mui-selected'}}
     })
     console.log('Editing..');
   }
@@ -53,7 +53,7 @@ export default function PeopleTable(props) {
           }
 
           return (
-            <EditableTextControl 
+            <DataTextControl 
               value={cell.value} 
               onChange={
                 (val) => {
@@ -80,7 +80,7 @@ export default function PeopleTable(props) {
   )
 
   return (
-    <EditableTable 
+    <DataTable 
       data={data} 
       columns={columns} 
       onSave={onSave} 

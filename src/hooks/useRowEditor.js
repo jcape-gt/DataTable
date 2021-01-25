@@ -15,7 +15,6 @@ export default function useRowEditor() {
   }
 
   const rowSave = (row) => {
-    console.log(row);
     if(row.state.editing) {
       setRowEditor({...rowEditor, ...{isEditing: false, snapshot: {}}});
       row.setState({...row.state, ...{editing: false}})

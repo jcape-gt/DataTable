@@ -1,21 +1,31 @@
 import './App.css';
 import PeopleTable from './containers/PeopleTable';
+import { createMuiTheme } from '@material-ui/core/styles';
+import { ThemeProvider } from '@material-ui/styles';
+import CssBaseline from '@material-ui/core/CssBaseline';
 
 function App() {
+  const darkTheme = createMuiTheme({
+    palette: {
+      type: 'dark',
+    },
+  });
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <PeopleTable />
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <ThemeProvider theme={darkTheme}>
+      <CssBaseline />
+      <div>
+        <div>
+          <h1>Header</h1>
+        </div>
+        <div>
+          <PeopleTable />
+        </div>
+        <div>
+          <h1>Footer</h1>
+        </div>
+      </div>
+    </ThemeProvider>
   );
 }
 

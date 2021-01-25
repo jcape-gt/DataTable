@@ -1,23 +1,24 @@
 import PropTypes from 'prop-types';
 import React from 'react';
+import Button from '@material-ui/core/Button';
 
 /**
  * A control containing row actions displayed when row is in view mode
  * @param {() => {}} props.onEditClick
  * @returns {ReactElement} The element to be rendered
  */
-function RowViewStateControl(props) {
+function DataRowViewControl(props) {
   const { onEditClick } = props;
 
   return (
-    <button onClick={(e) => { onEditClick() }}>
+    <Button variant="outlined" onClick={(e) => { onEditClick() }}>
         Edit
-    </button> 
+    </Button> 
   )
 }
 
-RowViewStateControl.propTypes = {
+DataRowViewControl.propTypes = {
   onEditClick: PropTypes.func.isRequired
 }
 
-export default RowViewStateControl;
+export default DataRowViewControl;
