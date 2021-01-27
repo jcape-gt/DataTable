@@ -23,7 +23,8 @@ function DataRow(props) {
         <RowStateControl 
           editing={row.state.editing}
           viewControl={
-            <DataRowViewControl row={row} 
+            <DataRowViewControl 
+              row={row} 
               onEditClick={() => {onEdit(row)}} 
             />
           }

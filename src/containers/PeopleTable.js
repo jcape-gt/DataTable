@@ -20,7 +20,7 @@ export default function PeopleTable(props) {
   const onSave = (updatedData) => {
     setData([...data].map(o => {
       if(o.id === updatedData.id) {
-        return {...o, name: updatedData.name}
+        return {...o, ...updatedData}
       }
       else return o
     }))
@@ -74,7 +74,7 @@ export default function PeopleTable(props) {
           const { editing } = cell.row.state;
 
           const setUpdatedValue = (row, key, value) => {
-            const updatedValues = {...row.state.updatedValues, ...{[key]: value}}
+            const updatedValues = {...row.state.updatedValues, ...{[key]: value.toLocaleDateString('en-US')}}
             row.setState({...row.state, ...{updatedValues: updatedValues}});
           }
 
