@@ -21,6 +21,11 @@
   background-color: #2E151B;
 }
 
+.data-cell {
+  width: 130
+}
+
+
 .App-header {
   background-color: #2F4454;
   min-height: 100vh;

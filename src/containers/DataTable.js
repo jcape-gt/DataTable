@@ -16,8 +16,20 @@ import PropTypes from 'prop-types';
  * @returns {ReactElement} The data table to be rendered
  */
 function DataTable(props) {
-  const { data, columns, onSave, onEdit, onRevert } = props;
-  const [ getRowEditorState, rowEdit, rowSave, rowRevert ] = useRowEditor();
+  const { 
+    data, 
+    columns, 
+    onSave, 
+    onEdit, 
+    onRevert 
+  } = props;
+
+  const [ 
+    getRowEditorState, 
+    rowEdit, 
+    rowSave, 
+    rowRevert 
+  ] = useRowEditor(onEdit, onSave, onRevert);
   
   const initialRowState = (row) => {
     const handlerState = {dataState: 'unmodified'};
@@ -27,21 +39,6 @@ function DataTable(props) {
 
   const initialCellState = (cell) => {
     return {updatedValue: null}
-  }
-
-  const onRowSave = (row) => {
-    onSave(row.state.updatedValues);
-    rowSave(row);
-  }
-
-  const onRowEdit = (row) => {
-    rowEdit(row);
-    onEdit(row);
-  }
-
-  const onRowRevert = (row) => {
-    rowRevert(row);
-    onRevert(row);
   }
 
   const {
@@ -79,9 +76,9 @@ function DataTable(props) {
             <DataRow 
               row={row} 
               key={row.id} 
-              onSave={() => {onRowSave(row)}} 
-              onEdit={() => {onRowEdit(row)}} 
-              onRevert={() => {onRowRevert(row)}} 
+              onSave={() => {rowSave(row)}} 
+              onEdit={() => {rowEdit(row)}} 
+              onRevert={() => {rowRevert(row)}} 
             />
           )
         })}

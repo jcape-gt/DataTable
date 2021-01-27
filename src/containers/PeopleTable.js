@@ -1,14 +1,15 @@
 import React from 'react';
 import DataTable from './DataTable';
 import DataTextControl from './DataTextControl';
+import DataDateControl from './DataDateControl';
 
 export default function PeopleTable(props) {
 
   const [data, setData] = React.useState(
     [
-      { id: 1, name: 'Jesse', age: '33' },
-      { id: 2, name: 'Brittany', age: '32', },
-      { id: 3, name: 'Molli', age: '3', },
+      { id: 1, name: 'Jesse', birthday: '10/27/1988' },
+      { id: 2, name: 'Brittany', birthday: '11/23/1989', },
+      { id: 3, name: 'Molli', birthday: '04/06/2018', },
     ]
   );
 
@@ -66,8 +67,29 @@ export default function PeopleTable(props) {
         }
       },
       {
-        Header: 'Age',
-        accessor: 'age',
+        Header: 'Birthday',
+        accessor: 'birthday',
+
+        Cell: (cell) => {
+          const { editing } = cell.row.state;
+
+          const setUpdatedValue = (row, key, value) => {
+            const updatedValues = {...row.state.updatedValues, ...{[key]: value}}
+            row.setState({...row.state, ...{updatedValues: updatedValues}});
+          }
+
+          return (
+            <DataDateControl 
+              value={cell.value} 
+              onChange={
+                (val) => {
+                  setUpdatedValue(cell.row, 'birthday', val);
+                }
+              } 
+              editing={editing} 
+            />
+          )
+        }
       },
       {
         accessor: 'id',

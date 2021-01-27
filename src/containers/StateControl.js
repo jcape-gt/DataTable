@@ -3,26 +3,23 @@ import React from 'react';
 
 /**
  * Conditionally renders controls based on the current state
- * @param {{id: string, render: () => JSX}} props.stateControlList
+ * @param {Map} props.stateControlMapping
  * @param {object} props.state
- * @returns {ReactElement} The control corresponding to the current state
+ * @returns {ReactElement} Rendered control for the given state
  */
 function StateControl(props) {
-  const { stateControlList, state } = props;
-  const control = stateControlList.find(e => e.id === state);
+  const { stateControlMapping, state } = props;
+  const control = stateControlMapping.get(state);
   
   return (
     <div>
-      { control.render() }
+      { control }
     </div>
   )
 }
 
 StateControl.propTypes = {
-  stateControlList: PropTypes.arrayOf(PropTypes.shape({
-    id: PropTypes.any.isRequired,
-    render: PropTypes.func.isRequired
-  })),
+  stateControlMapping: PropTypes.object.isRequired,
   state: PropTypes.any.isRequired,
 };
 

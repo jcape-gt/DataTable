@@ -1,38 +1,31 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import StateControl from './StateControl';
 import TextControl from './TextControl';
+import DataControl from './DataControl';
 
 /**
  * Renders a text control with view and edit mode
- * @param {Object} props.value Control's current data value 
- * @param {(val) => void} props.onChange Control's value change callback
+ * @param {object} props.value Control's current data value 
  * @param {bool} props.editing Whether control is in edit mode
+ * @param {(val) => void} props.onChange Control's value change callback
  * @returns {ReactElement} StateControl element which handles rendering 
  */
 function DataTextControl(props) {
-  const {value, onChange, editing} = props;
+  const {value, editing, onChange} = props;
   
-  const stateControlList = [
-    {
-      id: true,
-      render: () => { return <TextControl value={value} onChange={onChange} /> }
-    },
-    {
-      id: false,
-      render: () => { return value }
-    }
-  ];
-
   return (
-    <StateControl stateControlList={stateControlList} state={editing} />
+    <DataControl 
+      editing={editing}
+      viewControl={(value)}
+      editControl={(<TextControl value={value} onChange={onChange} />)}
+    />
   )
 }
 
 DataTextControl.propTypes = {
   value: PropTypes.any.isRequired,
-  onChange: PropTypes.func.isRequired,
   editing: PropTypes.bool.isRequired,
+  onChange: PropTypes.func.isRequired,
 }
 
 export default DataTextControl;

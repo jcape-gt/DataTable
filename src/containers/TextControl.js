@@ -13,7 +13,7 @@ function TextControl(props) {
   }
 
   return (
-    <TextField value={editValue} onChange={(event) => onLocalChange(event.target.value)} />
+    <TextField value={editValue} onChange={(event) => onLocalChange(event.target.value)} fullWidth={true} />
   )
 }
 

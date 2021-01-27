@@ -1,6 +1,6 @@
 import { useState } from 'react';
 
-export default function useRowEditor() {
+export default function useRowEditor(onEdit, onSave, onRevert) {
   const [rowEditor, setRowEditor] = useState({isEditing: false, snapshot: {}});
   
   const getRowEditorState = () => {
@@ -9,6 +9,7 @@ export default function useRowEditor() {
 
   const rowEdit = (row) => {
     if(!rowEditor.isEditing) {
+      onEdit(row);
       setRowEditor({...rowEditor, ...{isEditing: true, snapshot: row}});
       row.setState({...row.state, ...{editing: true, updatedValues: row.values}})
     }
@@ -16,6 +17,7 @@ export default function useRowEditor() {
 
   const rowSave = (row) => {
     if(row.state.editing) {
+      onSave(row.state.updatedValues);
       setRowEditor({...rowEditor, ...{isEditing: false, snapshot: {}}});
       row.setState({...row.state, ...{editing: false}})
     }
@@ -23,6 +25,7 @@ export default function useRowEditor() {
 
   const rowRevert = (row) => {
     if(row.state.editing) {
+      onRevert(row);
       setRowEditor({...rowEditor, ...{isEditing: false, snapshot: {}}});
       row.setState({...row.state, ...{editing: false}})
     }
