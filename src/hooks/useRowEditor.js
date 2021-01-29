@@ -11,13 +11,13 @@ export default function useRowEditor(onEdit, onSave, onRevert) {
     if(!rowEditor.isEditing) {
       onEdit(row);
       setRowEditor({...rowEditor, ...{isEditing: true, snapshot: row}});
-      row.setState({...row.state, ...{editing: true, updatedValues: row.values}})
+      row.setState({...row.state, ...{editing: true, dirtyValues: row.values}})
     }
   }
 
   const rowSave = (row) => {
     if(row.state.editing) {
-      onSave(row.state.updatedValues);
+      onSave(row.state.dirtyValues);
       setRowEditor({...rowEditor, ...{isEditing: false, snapshot: {}}});
       row.setState({...row.state, ...{editing: false}})
     }

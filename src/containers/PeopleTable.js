@@ -2,9 +2,9 @@ import React from 'react';
 import DataTable from './DataTable';
 import DataTextControl from './DataTextControl';
 import DataDateControl from './DataDateControl';
+import withEditing from '../hocs/withEditing';
 
 export default function PeopleTable(props) {
-
   const [data, setData] = React.useState(
     [
       { id: 1, name: 'Jesse', birthday: '10/27/1988' },
@@ -40,66 +40,45 @@ export default function PeopleTable(props) {
     console.log('onRevert..');
   }
 
-  const columns = React.useMemo(
-    () => [
-      {
-        Header: 'Name',
-        accessor: 'name',
-        Cell: (cell) => {
-          const { editing } = cell.row.state;
+  const EditableCell = withEditing(DataTextControl);
+  const EditableDateCell = withEditing(DataDateControl);
 
-          const setUpdatedValue = (row, key, value) => {
-            const updatedValues = {...row.state.updatedValues, ...{[key]: value}}
-            row.setState({...row.state, ...{updatedValues: updatedValues}});
-          }
+  const columns = [
+    {
+      Header: 'Name',
+      accessor: 'name',
+      Cell: (cell) => {
 
-          return (
-            <DataTextControl 
-              value={cell.value} 
-              onChange={
-                (val) => {
-                  setUpdatedValue(cell.row, 'name', val);
-                }
-              } 
-              editing={editing} 
-            />
-          )
-        }
-      },
-      {
-        Header: 'Birthday',
-        accessor: 'birthday',
+        return (
+          <EditableCell 
+            value={cell.value} 
+            accessor='name'
+            row={cell.row} 
+          />
+        )
+      }
+    },
+    {
+      Header: 'Birthday',
+      accessor: 'birthday',
 
-        Cell: (cell) => {
-          const { editing } = cell.row.state;
-
-          const setUpdatedValue = (row, key, value) => {
-            const updatedValues = {...row.state.updatedValues, ...{[key]: value.toLocaleDateString('en-US')}}
-            row.setState({...row.state, ...{updatedValues: updatedValues}});
-          }
-
-          return (
-            <DataDateControl 
-              value={cell.value} 
-              onChange={
-                (val) => {
-                  setUpdatedValue(cell.row, 'birthday', val);
-                }
-              } 
-              editing={editing} 
-            />
-          )
-        }
-      },
-      {
-        accessor: 'id',
-        Cell: (cell) => {
-          return(<div></div>);
-        }
-      },
-    ],
-    []
-  )
+      Cell: (cell) => {
+        return (
+          <EditableDateCell 
+            row={cell.row} 
+            accessor='birthday' 
+            value={cell.value} 
+          />
+        )
+      }
+    },
+    {
+      accessor: 'id',
+      Cell: (cell) => {
+        return(<div></div>);
+      }
+    },
+  ]
 
   return (
     <DataTable 

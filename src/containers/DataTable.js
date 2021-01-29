@@ -34,7 +34,7 @@ function DataTable(props) {
   const initialRowState = (row) => {
     const handlerState = {dataState: 'unmodified'};
     const rowEditorState = getRowEditorState();
-    return { ...handlerState, ...rowEditorState, updatedValues: {}, className: "" }
+    return { ...handlerState, ...rowEditorState, dirtyValues: {}, className: "" }
   }
 
   const initialCellState = (cell) => {

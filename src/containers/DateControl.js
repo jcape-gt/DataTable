@@ -7,7 +7,7 @@ function DateControl(props) {
   const { value, onChange } = props;
   const [ editValue, setNewValue ] = useState(value);
 
-  const onLocalChange = (value) => {
+  const onLocalChange = (date, value) => {
     setNewValue(value);
     onChange(value);
   }
@@ -16,7 +16,7 @@ function DateControl(props) {
     <KeyboardDatePicker 
       format='MM/dd/yyyy' 
       value={editValue} 
-      onChange={(date) => onLocalChange(date)} 
+      onChange={(date, value) => onLocalChange(date, value)} 
       fullWidth={true} 
     />
   )
