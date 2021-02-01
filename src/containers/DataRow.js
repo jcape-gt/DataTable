@@ -6,6 +6,7 @@ import TableRow from '@material-ui/core/TableRow';
 import TableCell from '@material-ui/core/TableCell';
 import PropTypes from 'prop-types';
 
+
 /**
  * Renders a data table supporting CRUD functionalities
  * @param {Array} props.row The data row to edit 

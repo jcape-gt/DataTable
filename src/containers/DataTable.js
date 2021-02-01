@@ -1,6 +1,5 @@
 import React from 'react';
 import { useTable, useRowState } from 'react-table';
-import useRowEditor from '../hooks/useRowEditor';
 import MaUTable from '@material-ui/core/Table'
 import TableBody from '@material-ui/core/TableBody'
 import DataRow from './DataRow';
@@ -21,23 +20,15 @@ function DataTable(props) {
     columns, 
     onSave, 
     onEdit, 
-    onRevert 
+    onRevert,
+    initialRowState,
   } = props;
-
-  const [ 
-    getRowEditorState, 
-    rowEdit, 
-    rowSave, 
-    rowRevert 
-  ] = useRowEditor(onEdit, onSave, onRevert);
   
-  const initialRowState = (row) => {
-    const handlerState = {dataState: 'unmodified'};
-    const rowEditorState = getRowEditorState();
-    return { ...handlerState, ...rowEditorState, dirtyValues: {}, className: "" }
+  const getInitialRowState = (row) => {
+    return { ...initialRowState, className: "" }
   }
 
-  const initialCellState = (cell) => {
+  const getInitialCellState = (cell) => {
     return {updatedValue: null}
   }
 
@@ -50,8 +41,8 @@ function DataTable(props) {
   } = useTable({ 
     columns, 
     data, 
-    initialRowStateAccessor: initialRowState,
-    initialCellStateAccessor: initialCellState,
+    initialRowStateAccessor: getInitialRowState,
+    initialCellStateAccessor: getInitialCellState,
     }, useRowState
   )
     
@@ -76,9 +67,9 @@ function DataTable(props) {
             <DataRow 
               row={row} 
               key={row.id} 
-              onSave={() => {rowSave(row)}} 
-              onEdit={() => {rowEdit(row)}} 
-              onRevert={() => {rowRevert(row)}} 
+              onSave={() => {onSave(row)}} 
+              onEdit={() => {onEdit(row)}} 
+              onRevert={() => {onRevert(row)}} 
             />
           )
         })}

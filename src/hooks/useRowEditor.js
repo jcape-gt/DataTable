@@ -1,11 +1,18 @@
 import { useState } from 'react';
+import { useBeforeunload } from 'react-beforeunload';
 
 export default function useRowEditor(onEdit, onSave, onRevert) {
   const [rowEditor, setRowEditor] = useState({isEditing: false, snapshot: {}});
   
-  const getRowEditorState = () => {
-    return {editing: false};
-  }
+  const initialRowEditState = {
+    editing: false, dirtyValues: {}
+  };
+
+  useBeforeunload(() => {
+    if(rowEditor.isEditing) {
+      return "are you sure"
+    }
+  })
 
   const rowEdit = (row) => {
     if(!rowEditor.isEditing) {
@@ -17,7 +24,7 @@ export default function useRowEditor(onEdit, onSave, onRevert) {
 
   const rowSave = (row) => {
     if(row.state.editing) {
-      onSave(row.state.dirtyValues);
+      onSave(row);
       setRowEditor({...rowEditor, ...{isEditing: false, snapshot: {}}});
       row.setState({...row.state, ...{editing: false}})
     }
@@ -31,5 +38,5 @@ export default function useRowEditor(onEdit, onSave, onRevert) {
     }
   }
 
-  return [getRowEditorState, rowEdit, rowSave, rowRevert];
+  return [initialRowEditState, rowEdit, rowSave, rowRevert];
 }
