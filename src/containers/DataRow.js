@@ -1,11 +1,10 @@
 import React from 'react';
-import DataRowEditControl from './DataRowEditControl';
-import DataRowViewControl from './DataRowViewControl';
-import RowStateControl from './RowStateControl';
+import DataRowEditControl from './rowControls/DataRowEditControl';
+import DataRowViewControl from './rowControls/DataRowViewControl';
+import RowStateControl from './rowControls/RowStateControl';
 import TableRow from '@material-ui/core/TableRow';
 import TableCell from '@material-ui/core/TableCell';
 import PropTypes from 'prop-types';
-
 
 /**
  * Renders a data table supporting CRUD functionalities

@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import TextControl from './TextControl';
 import DataControl from './DataControl';
+import SelectControl from '../baseControls/SelectControl';
 
 /**
  * Renders a text control with view and edit mode
@@ -10,22 +10,26 @@ import DataControl from './DataControl';
  * @param {(val) => void} props.onChange Control's value change callback
  * @returns {ReactElement} StateControl element which handles rendering 
  */
-function DataTextControl(props) {
-  const {value, editing, onChange} = props;
-  
+function DataSelectControl(props) {
+  const {value, editing, onChange, items} = props;
+  const viewItem = items.find(item => {
+    return item.key === value;
+  });
+
   return (
     <DataControl 
       editing={editing}
-      viewControl={(value)}
-      editControl={(<TextControl value={value} onChange={onChange} />)}
+      viewControl={(viewItem.value)}
+      editControl={(<SelectControl value={value} onChange={onChange} items={items} />)}
     />
   )
 }
 
-DataTextControl.propTypes = {
+DataSelectControl.propTypes = {
   value: PropTypes.any.isRequired,
   editing: PropTypes.bool.isRequired,
   onChange: PropTypes.func.isRequired,
+  items: PropTypes.array.isRequired,
 }
 
-export default DataTextControl;
+export default DataSelectControl;

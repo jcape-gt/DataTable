@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import DataControl from './DataControl';
+import DataControl from '../dataControls/DataControl';
 
 /**
  * Renders edit or view controls based on the current state

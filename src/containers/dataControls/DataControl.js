@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import StateControl from './StateControl';
+import StateControl from '../baseControls/StateControl';
 
 /**
  * Renders edit and view modes for a control

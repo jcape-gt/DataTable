@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types';
-import React, { useState } from 'react';
+import React, {useState} from 'react';
 import { KeyboardDatePicker } from '@material-ui/pickers';
 
 // Ability to change value and callback for value changed? 
@@ -20,11 +20,6 @@ function DateControl(props) {
       fullWidth={true} 
     />
   )
-}
-
-DateControl.propTypes = {
-  value: PropTypes.any.isRequired,
-  onChange: PropTypes.func.isRequired,
 }
 
 export default DateControl;

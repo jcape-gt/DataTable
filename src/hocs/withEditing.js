@@ -20,7 +20,8 @@ export default function withEditing(Container) {
           (val) => {
             setUpdatedValue(row, accessor, val);
           }
-        } 
+        }
+        {...props}
       />
     )
   }

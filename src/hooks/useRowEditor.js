@@ -10,9 +10,9 @@ export default function useRowEditor(onEdit, onSave, onRevert) {
 
   useBeforeunload(() => {
     if(rowEditor.isEditing) {
-      return "are you sure"
+      return "Are you sure you wish to exit while editing?"
     }
-  })
+  });
 
   const rowEdit = (row) => {
     if(!rowEditor.isEditing) {
@@ -20,7 +20,7 @@ export default function useRowEditor(onEdit, onSave, onRevert) {
       setRowEditor({...rowEditor, ...{isEditing: true, snapshot: row}});
       row.setState({...row.state, ...{editing: true, dirtyValues: row.values}})
     }
-  }
+  };
 
   const rowSave = (row) => {
     if(row.state.editing) {
@@ -28,7 +28,7 @@ export default function useRowEditor(onEdit, onSave, onRevert) {
       setRowEditor({...rowEditor, ...{isEditing: false, snapshot: {}}});
       row.setState({...row.state, ...{editing: false}})
     }
-  }
+  };
 
   const rowRevert = (row) => {
     if(row.state.editing) {
@@ -36,7 +36,7 @@ export default function useRowEditor(onEdit, onSave, onRevert) {
       setRowEditor({...rowEditor, ...{isEditing: false, snapshot: {}}});
       row.setState({...row.state, ...{editing: false}})
     }
-  }
+  };
 
   return [initialRowEditState, rowEdit, rowSave, rowRevert];
 }

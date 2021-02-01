@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import DateControl from './DateControl';
 import DataControl from './DataControl';
+import DateControl from '../baseControls/DateControl';
 
 function DataDateControl(props) {
   const { value, editing, onChange } = props;

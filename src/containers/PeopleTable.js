@@ -1,16 +1,25 @@
 import React from 'react';
 import useRowEditor from '../hooks/useRowEditor';
 import DataTable from './DataTable';
-import DataTextControl from './DataTextControl';
-import DataDateControl from './DataDateControl';
+import DataTextControl from './dataControls/DataTextControl';
+import DataDateControl from './dataControls/DataDateControl';
+import DataSelectControl from './dataControls/DataSelectControl';
 import withEditing from '../hocs/withEditing';
 
 export default function PeopleTable(props) {
   const [data, setData] = React.useState(
     [
-      { id: 1, name: 'Jesse', birthday: '10/27/1988' },
-      { id: 2, name: 'Brittany', birthday: '11/23/1989', },
-      { id: 3, name: 'Molli', birthday: '04/06/2018', },
+      { id: 1, name: 'Jesse', birthday: '10/27/1988', gender: 1 },
+      { id: 2, name: 'Brittany', birthday: '11/23/1989', gender: 0 },
+      { id: 3, name: 'Molli', birthday: '04/06/2018', gender: 0 },
+      { id: 'new', name: '', birthday: '', gender: 0 },
+    ]
+  );
+
+  const [gender, setGender] = React.useState(
+    [
+      { key: 0, value: 'female' },
+      { key: 1, value: 'male' },
     ]
   );
 
@@ -51,6 +60,8 @@ export default function PeopleTable(props) {
 
   const EditableCell = withEditing(DataTextControl);
   const EditableDateCell = withEditing(DataDateControl);
+  const EditableSelectCell = withEditing(DataSelectControl);
+
 
   const columns = [
     {
@@ -73,9 +84,24 @@ export default function PeopleTable(props) {
       Cell: (cell) => {
         return (
           <EditableDateCell 
+            value={cell.value} 
             row={cell.row} 
             accessor='birthday' 
+          />
+        )
+      }
+    },
+    {
+      Header: 'Gender',
+      accessor: 'gender',
+
+      Cell: (cell) => {
+        return (
+          <EditableSelectCell 
             value={cell.value} 
+            row={cell.row} 
+            accessor='gender' 
+            items={gender}
           />
         )
       }
