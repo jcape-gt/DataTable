@@ -8,13 +8,13 @@ import React from 'react';
  * @returns {ReactElement} Rendered control for the given state
  */
 function StateControl(props) {
-  const { stateControlMapping, state } = props;
+  const {stateControlMapping, state} = props;
   const control = stateControlMapping.get(state);
   
   return (
-    <div>
-      { control }
-    </div>
+    <React.Fragment>
+      {control}
+    </React.Fragment>
   )
 }
 

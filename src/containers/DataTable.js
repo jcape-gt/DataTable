@@ -1,5 +1,5 @@
 import React from 'react';
-import { useTable, useRowState } from 'react-table';
+import {useTable, useRowState} from 'react-table';
 import MaUTable from '@material-ui/core/Table'
 import TableBody from '@material-ui/core/TableBody'
 import DataRow from './DataRow';

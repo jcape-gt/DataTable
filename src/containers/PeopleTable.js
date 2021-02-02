@@ -62,7 +62,6 @@ export default function PeopleTable(props) {
   const EditableDateCell = withEditing(DataDateControl);
   const EditableSelectCell = withEditing(DataSelectControl);
 
-
   const columns = [
     {
       Header: 'Name',
