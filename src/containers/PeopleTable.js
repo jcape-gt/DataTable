@@ -12,16 +12,14 @@ export default function PeopleTable(props) {
       { id: 1, name: 'Jesse', birthday: '10/27/1988', gender: 1 },
       { id: 2, name: 'Brittany', birthday: '11/23/1989', gender: 0 },
       { id: 3, name: 'Molli', birthday: '04/06/2018', gender: 0 },
-      { id: 'new', name: '', birthday: '', gender: 0 },
     ]
   );
 
-  const [gender, setGender] = React.useState(
-    [
-      { key: 0, value: 'female' },
-      { key: 1, value: 'male' },
-    ]
-  );
+  const gender = [
+    {key: 'default', value: ''},
+    { key: 0, value: 'female' },
+    { key: 1, value: 'male' },
+  ];
 
   /**
    * Handles save logic for the updated data
@@ -33,7 +31,7 @@ export default function PeopleTable(props) {
       if(o.id === updatedData.id) {
         return {...o, ...updatedData}
       }
-      else return o
+      else return o;
     }))
   }
 
@@ -66,6 +64,7 @@ export default function PeopleTable(props) {
     {
       Header: 'Name',
       accessor: 'name',
+      defaultValue: '',
       Cell: (cell) => {
         return (
           <EditableCell 
@@ -79,7 +78,7 @@ export default function PeopleTable(props) {
     {
       Header: 'Birthday',
       accessor: 'birthday',
-
+      defaultValue: '',
       Cell: (cell) => {
         return (
           <EditableDateCell 
@@ -93,7 +92,7 @@ export default function PeopleTable(props) {
     {
       Header: 'Gender',
       accessor: 'gender',
-
+      defaultValue: 'default',
       Cell: (cell) => {
         return (
           <EditableSelectCell 
@@ -107,7 +106,8 @@ export default function PeopleTable(props) {
     },
     {
       accessor: 'id',
-      Cell: (cell) => {
+      defaultValue: 'new',
+      Cell: (props) => {
         return(<div></div>);
       }
     },
@@ -121,6 +121,7 @@ export default function PeopleTable(props) {
       onEdit={rowEdit}
       onRevert={rowRevert}
       initialRowState={initialRowEditState}
+      displayBlankRow={true}
     />
   )
 }

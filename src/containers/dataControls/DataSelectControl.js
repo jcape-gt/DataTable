@@ -12,6 +12,7 @@ import SelectControl from '../baseControls/SelectControl';
  */
 function DataSelectControl(props) {
   const {value, editing, onChange, items} = props;
+
   const viewItem = items.find(item => {
     return item.key === value;
   });
@@ -20,7 +21,11 @@ function DataSelectControl(props) {
     <DataControl 
       editing={editing}
       viewControl={(viewItem.value)}
-      editControl={(<SelectControl value={value} onChange={onChange} items={items} />)}
+      editControl={(<SelectControl 
+        value={value} 
+        onChange={onChange} 
+        items={items} 
+      />)}
     />
   )
 }

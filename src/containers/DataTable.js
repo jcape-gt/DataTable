@@ -5,6 +5,25 @@ import TableBody from '@material-ui/core/TableBody'
 import DataRow from './DataRow';
 import PropTypes from 'prop-types';
 
+function makeBlankRow(columns) {
+  let newRow = {};
+  columns.forEach((column) => {
+    newRow[`${column.accessor}`] = column.defaultValue;
+  });
+  return newRow;
+}
+
+function appendNewRow(columns, data) {
+  const hasNewRow = (past, current) => {
+    return past || current.id === 'new';
+  }
+
+  if(!data.reduce(hasNewRow, false)) {
+    const blankRow = makeBlankRow(columns);
+    data.push(blankRow);
+  }
+}
+
 /**
  * Renders a data table supporting CRUD functionalities
  * @param {Array} props.data
@@ -22,14 +41,19 @@ function DataTable(props) {
     onEdit, 
     onRevert,
     initialRowState,
+    displayBlankRow
   } = props;
   
   const getInitialRowState = (row) => {
-    return { ...initialRowState, className: "" }
+    return { ...initialRowState, className: "", newRecord: false }
   }
 
   const getInitialCellState = (cell) => {
     return {updatedValue: null}
+  }
+
+  if(displayBlankRow) {
+    appendNewRow(columns, data);
   }
 
   const {
@@ -44,8 +68,8 @@ function DataTable(props) {
     initialRowStateAccessor: getInitialRowState,
     initialCellStateAccessor: getInitialCellState,
     }, useRowState
-  )
-    
+  );
+  
   return (
     <MaUTable {...getTableProps()} style={{borderCollapse: 'collapse'}}>
       <thead>
